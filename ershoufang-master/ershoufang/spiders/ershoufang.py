@@ -1,12 +1,12 @@
  #-*- coding: utf-8 -*-
 import scrapy
 import re
-import codecs
 
 class ershoufangSpider(scrapy.Spider):
     name = "ershoufang"
     start_urls = ["http://bj.lianjia.com/ershoufang/pg1"]
 
+    #names = []
     def parse(self, response):
         houses = response.xpath(".//ul[@class='sellListContent']/li")
         for house in houses:
@@ -39,6 +39,7 @@ class ershoufangSpider(scrapy.Spider):
                 'visited': visited,
                 'publishday': publishday
             }
+            #names.append()
 
         page = response.xpath("//div[@class='page-box house-lst-page-box'][@page-data]").re("\d+")
         p = re.compile(r'[^\d]+')
