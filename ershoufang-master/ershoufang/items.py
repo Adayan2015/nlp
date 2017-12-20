@@ -10,9 +10,6 @@ import scrapy
 
 class ErshoufangItem(scrapy.Item):
     # define the fields for your item here like:
-    url = scrapy.Field()
-    title = scrapy.Field()
-    region = scrapy.Field()
     houseInfo = scrapy.Field()
-
+    totalPrice = scrapy.Field()
     pass

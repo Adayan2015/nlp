@@ -6,41 +6,21 @@ class ershoufangSpider(scrapy.Spider):
     name = "ershoufang"
     start_urls = ["http://bj.lianjia.com/ershoufang/pg1"]
 
-    #names = []
     def parse(self, response):
+        items = []
         houses = response.xpath(".//ul[@class='sellListContent']/li")
         for house in houses:
-            attention = ''
-            visited = ''
-            publishday = ''
-            try:
-                attention = house.xpath(".//div[@class='followInfo']/text()").re("\d+")[0]
-                visited = house.xpath(".//div[@class='followInfo']/text()").re("\d+")[1]
-                if u'月' in house.xpath(".//div[@class='followInfo']/text()").extract()[0].split('/')[2]:
-                    number = house.xpath(".//div[@class='followInfo']/text()").re("\d+")[2]
-                    publishday = '' + int(number)*30
-
-                elif u'年' in house.xpath(".//div[@class='followInfo']/text()").extract()[0].split('/')[2]:
-                    number = house.xpath(".//div[@class='followInfo']/text()").re("\d+")[2]
-                    publishday = '365'
-                else:
-                    publishday = house.xpath(".//div[@class='followInfo']/text()").re("\d+")[2]
-            except:
-                print "These are some exceptions"
-            else:
-                pass
-            yield {
-                'region': house.xpath(".//div[@class='houseInfo']/a/text()").extract(),
-                'url':house.xpath(".//a[@class='img ']/@href").extract(),
-                'houseInfo':house.xpath(".//div[@class='houseInfo']/text()").extract(),
-                'unitPrice':house.xpath(".//div[@class='unitPrice']/span").re("\d+.\d+"),
-                'totalPrice':house.xpath(".//div[@class='totalPrice']/span").re("\d+.\d+"),
-                'attention': attention,
-                'visited': visited,
-                'publishday': publishday
-            }
-            #names.append()
-
+            item = ErshoufangItem()
+            item['houseInfo'] = house.xpath(".//div[@class='houseInfo']/text()").extract()
+            item['totalPrice'] = house.xpath(".//div[@class='totalPrice']/span").re("\d+.\d+")
+            item['attention'] = house.xpath(".//div[@class='followInfo']/text()").re("\d+")[0]
+            item['visited'] = house.xpath(".//div[@class='followInfo']/text()").re("\d+")[1]
+            item['unitPrice'] = house.xpath(".//div[@class='unitPrice']/span").re("\d+.\d+")
+            item['url'] = house.xpath(".//a[@class='img ']/@href").extract()
+            item['region'] = house.xpath(".//div[@class='houseInfo']/a/text()").extract()
+            items.append(item)
+            yield item
+        #翻页
         page = response.xpath("//div[@class='page-box house-lst-page-box'][@page-data]").re("\d+")
         p = re.compile(r'[^\d]+')
         if len(page)>1 and page[0] != page[1]:
