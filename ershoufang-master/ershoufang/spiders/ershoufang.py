@@ -1,6 +1,7 @@
  #-*- coding: utf-8 -*-
 import scrapy
 import re
+from ershoufang.items import ErshoufangItem
 
 class ershoufangSpider(scrapy.Spider):
     name = "ershoufang"
@@ -22,6 +23,7 @@ class ershoufangSpider(scrapy.Spider):
             yield item
         #翻页
         page = response.xpath("//div[@class='page-box house-lst-page-box'][@page-data]").re("\d+")
+        print page + "-----------------------------------"
         p = re.compile(r'[^\d]+')
         if len(page)>1 and page[0] != page[1]:
             next_page = p.match(response.url).group()+str(int(page[1])+1)
