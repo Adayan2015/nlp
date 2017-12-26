@@ -1,17 +1,16 @@
 import re
 import scrapy
-from ershoufang.items import ErshoufangItem
+from ershoufang.items import FangItem
 from scrapy import Spider
 
-class ershoufangSpider(scrapy,Spider):
-	name = "ershoufang"
+class ershoufangSpider(Spider):
+	name = "ershoufangspider"
 	start_urls = ["http://bj.lianjia.com/ershoufang/pg1"]
-
 	def parse(self, response):
 		items = []
 		houses = response.xpath(".//ul[@class='sellListContent']/li")
 		for house in houses:
-			item = ErshoufangItem()
+			item = FangItem()
 			item['houseInfo'] = house.xpath(".//div[@class='houseInfo']/text()").extract()
 			item['totalPrice'] = house.xpath(".//div[@class='totalPrice']/span").re("\d+.\d+")
 			item['attention'] = house.xpath(".//div[@class='followInfo']/text()").re("\d+")[0]
@@ -21,7 +20,6 @@ class ershoufangSpider(scrapy,Spider):
 			item['region'] = house.xpath(".//div[@class='houseInfo']/a/text()").extract()
 			items.append(item)
 			yield item
-
 		page = response.xpath("//div[@class='page-box house-lst-page-box'][@page-data]").re("\d+")
 		print page + "-----------------------------------"
 		p = re.compile(r'[^\d]+')
