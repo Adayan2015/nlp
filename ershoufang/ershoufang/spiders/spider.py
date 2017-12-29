@@ -1,11 +1,17 @@
-import re
+#-*-coding:UTF-8-*-
 import scrapy
 from ershoufang.items import FangItem
 from scrapy import Spider
+#json字符串格式问题
 
-class ershoufangSpider(Spider):
+class ershoufangSpider(scrapy.Spider):
 	name = "ershoufangspider"
-	start_urls = ["http://bj.lianjia.com/ershoufang/pg1"]
+	start_urls = [
+		"http://bj.lianjia.com/ershoufang/pg1",
+		"http://bj.lianjia.com/ershoufang/pg2"
+
+	]
+	#解析数据
 	def parse(self, response):
 		items = []
 		houses = response.xpath(".//ul[@class='sellListContent']/li")
@@ -19,12 +25,5 @@ class ershoufangSpider(Spider):
 			item['url'] = house.xpath(".//a[@class='img ']/@href").extract()
 			item['region'] = house.xpath(".//div[@class='houseInfo']/a/text()").extract()
 			items.append(item)
-			yield item
-		page = response.xpath("//div[@class='page-box house-lst-page-box'][@page-data]").re("\d+")
-		print page + "-----------------------------------"
-		p = re.compile(r'[^\d]+')
-		if len(page) > 1 and page[0] != page[1]:
-			next_page = p.match(response.url).group() + str(int(page[1]) + 1)
-			print next_page + "*********************"
-			next_page = response.urljoin(next_page)
-			yield scrapy.Request(next_page, callback=self.parse)
+			items.append(",")
+		return items
