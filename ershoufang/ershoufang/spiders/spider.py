@@ -9,7 +9,6 @@ class ershoufangSpider(scrapy.Spider):
 	start_urls = [
 		"http://bj.lianjia.com/ershoufang/pg1",
 		"http://bj.lianjia.com/ershoufang/pg2"
-
 	]
 	#解析数据
 	def parse(self, response):
@@ -25,5 +24,4 @@ class ershoufangSpider(scrapy.Spider):
 			item['url'] = house.xpath(".//a[@class='img ']/@href").extract()
 			item['region'] = house.xpath(".//div[@class='houseInfo']/a/text()").extract()
 			items.append(item)
-			items.append(",")
 		return items

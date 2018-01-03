@@ -10,5 +10,5 @@ class FangItem(scrapy.Item):
     unitPrice = scrapy.Field()
     url = scrapy.Field()
     region = scrapy.Field()
-pass
+
 
