@@ -13,12 +13,12 @@ with open(filename) as f:
 regions,plot_dicts = [],[]
 for fang_dict in pop_data:
 	regions.append(fang_dict['region'][0])
-	plot_dict = {'value': int(fang_dict['totalPrice'][0]),
+	plot_dict = {'value': float(fang_dict['totalPrice'][0]),
 		'label': fang_dict['houseInfo'][0], 'xlink': fang_dict['url'][0]}
 	plot_dicts.append(plot_dict)
 #可视化
 # 改变默认主题颜色，偏蓝色
-my_style = LS('#333366', base_style=LCS)
+my_style = LS('#FF3300', base_style=LCS)
 # 配置
 my_config = pygal.Config()
 # x轴的文字旋转45度
@@ -45,5 +45,5 @@ chart.title = 'Lian Jia ershoufang'
 chart.x_labels = regions
 # 加入y轴的数据，无需title设置为空，注意这里传入的字典，
 # 其中的键--value也就是y轴的坐标值了
-chart.add('', plot_dicts)
+chart.add('单位：万元', plot_dicts)
 chart.render_to_file('lianjia.svg')

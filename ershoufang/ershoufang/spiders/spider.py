@@ -1,8 +1,6 @@
 #-*-coding:UTF-8-*-
 import scrapy
 from ershoufang.items import FangItem
-from scrapy import Spider
-#json字符串格式问题
 
 class ershoufangSpider(scrapy.Spider):
 	name = "ershoufangspider"
