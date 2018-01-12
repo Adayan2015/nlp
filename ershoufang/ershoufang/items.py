@@ -7,6 +7,7 @@ class FangItem(scrapy.Item):
     totalPrice = scrapy.Field()
     attention = scrapy.Field()
     visited = scrapy.Field()
+    pubdate = scrapy.Field()
     unitPrice = scrapy.Field()
     url = scrapy.Field()
     region = scrapy.Field()

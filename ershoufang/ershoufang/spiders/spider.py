@@ -18,6 +18,7 @@ class ershoufangSpider(scrapy.Spider):
 			item['totalPrice'] = house.xpath(".//div[@class='totalPrice']/span").re("\d+.\d+")
 			item['attention'] = house.xpath(".//div[@class='followInfo']/text()").re("\d+")[0]
 			item['visited'] = house.xpath(".//div[@class='followInfo']/text()").re("\d+")[1]
+			item['pubdate'] = house.xpath(".//div[@class='followInfo']/text()").re("\d+")[2]
 			item['unitPrice'] = house.xpath(".//div[@class='unitPrice']/span").re("\d+.\d+")
 			item['url'] = house.xpath(".//a[@class='img ']/@href").extract()
 			item['region'] = house.xpath(".//div[@class='houseInfo']/a/text()").extract()
