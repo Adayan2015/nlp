@@ -10,11 +10,11 @@ with open(filename) as f:
 	pop_data = json.load(f)
 
 #打印房屋信息和总体价格
-regions,plot_dicts = [],[]
+regions,plot_dicts,housesinfotmp= [],[],[]
 for fang_dict in pop_data:
-	regions.append(fang_dict['region'][0])
-	plot_dict = {'value': float(fang_dict['totalPrice'][0]),
-		'label': fang_dict['houseInfo'][0], 'xlink': fang_dict['url'][0]}
+	regions.append(fang_dict['region'])
+	plot_dict = {'value': float(fang_dict['totalPrice']),
+		'label': "|".join(fang_dict['houseInfo']), 'xlink': fang_dict['url']}
 	plot_dicts.append(plot_dict)
 #可视化
 # 改变默认主题颜色，偏蓝色
